@@ -6,6 +6,8 @@ const multer = require('multer');
 const Image = require('./model/ImageModel'); // Import the Image model
 const path = require('path');
 const fs = require('fs');
+const dotenv = require('dotenv');
+dotenv.config();
 
 
 const app = express();
@@ -13,7 +15,8 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect("mongodb+srv://mugilvannan:mugilvannan@cluster0.0njiu.mongodb.net/images")
+const uri = process.env.MONGO_URI;
+mongoose.connect(uri)
     .then(() => {
         console.log('Connected to MongoDB');
     })
@@ -109,6 +112,6 @@ app.get('/', (req, res) => {
     res.send('Express app is running');
 })
 
-app.listen(5000, () => {
+app.listen(process.env.PORT, () => {
     console.log('Server is running on port 5000');
 })
